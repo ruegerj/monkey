@@ -9,6 +9,7 @@ import (
 const (
 	OpConstant Opcode = iota
 	OpPop
+
 	OpAdd
 	OpSub
 	OpMul
@@ -20,6 +21,9 @@ const (
 	OpEqual
 	OpNotEqual
 	OpGreaterThan
+
+	OpMinus
+	OpBang
 )
 
 var definitions = map[Opcode]*Definition{
@@ -37,6 +41,9 @@ var definitions = map[Opcode]*Definition{
 	OpEqual:       {"OpEqual", []int{}},
 	OpNotEqual:    {"OpNotEqual", []int{}},
 	OpGreaterThan: {"OpGreaterThan", []int{}},
+
+	OpMinus: {"OpMinus", []int{}},
+	OpBang:  {"OpBang", []int{}},
 }
 
 type Instructions []byte
