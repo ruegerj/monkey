@@ -27,6 +27,8 @@ const (
 
 	OpJumpNotTruthy
 	OpJump
+
+	OpNull
 )
 
 var definitions = map[Opcode]*Definition{
@@ -50,6 +52,8 @@ var definitions = map[Opcode]*Definition{
 
 	OpJumpNotTruthy: {"OpJumpNotTruthy", []int{2}},
 	OpJump:          {"OpJump", []int{2}},
+
+	OpNull: {"OpNull", []int{}},
 }
 
 type Instructions []byte
