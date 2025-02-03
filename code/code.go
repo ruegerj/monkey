@@ -35,6 +35,8 @@ const (
 
 	OpArray
 	OpHash
+
+	OpIndex
 )
 
 var definitions = map[Opcode]*Definition{
@@ -66,6 +68,8 @@ var definitions = map[Opcode]*Definition{
 
 	OpArray: {"OpArray", []int{2}},
 	OpHash:  {"OpHash", []int{2}},
+
+	OpIndex: {"OpIndex", []int{}},
 }
 
 type Instructions []byte
