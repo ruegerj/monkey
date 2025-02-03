@@ -32,6 +32,8 @@ const (
 
 	OpGetGlobal
 	OpSetGlobal
+
+	OpArray
 )
 
 var definitions = map[Opcode]*Definition{
@@ -60,6 +62,8 @@ var definitions = map[Opcode]*Definition{
 
 	OpGetGlobal: {"OpGetGlobal", []int{2}},
 	OpSetGlobal: {"OpSetGlobal", []int{2}},
+
+	OpArray: {"OpArray", []int{2}},
 }
 
 type Instructions []byte
