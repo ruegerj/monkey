@@ -200,6 +200,13 @@ func (c *Compiler) Compile(node ast.Node) error {
 
 		c.emit(code.OpIndex)
 
+	case *ast.CallExpression:
+		err := c.Compile(node.Function)
+		if err != nil {
+			return err
+		}
+		c.emit(code.OpCall)
+
 	case *ast.Boolean:
 		if node.Value {
 			c.emit(code.OpTrue)
@@ -363,7 +370,7 @@ func (c *Compiler) replaceInstruction(pos int, newInstruction []byte) {
 	ins := c.currentInstructions()
 
 	for i := 0; i < len(newInstruction); i++ {
-		ins[pos+1] = newInstruction[i]
+		ins[pos+i] = newInstruction[i]
 	}
 }
 
