@@ -7,16 +7,6 @@ var Builtins = []struct {
 	Builtin *Builtin
 }{
 	{
-		"puts",
-		&Builtin{func(args ...Object) Object {
-			for _, arg := range args {
-				fmt.Println(arg.Inspect())
-			}
-
-			return nil
-		}},
-	},
-	{
 		"len",
 		&Builtin{func(args ...Object) Object {
 			if len(args) != 1 {
@@ -31,6 +21,16 @@ var Builtins = []struct {
 			default:
 				return newError("argument to `len` not supported, got %s", args[0].Type())
 			}
+		}},
+	},
+	{
+		"puts",
+		&Builtin{func(args ...Object) Object {
+			for _, arg := range args {
+				fmt.Println(arg.Inspect())
+			}
+
+			return nil
 		}},
 	},
 	// Array builtins
