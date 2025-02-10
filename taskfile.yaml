@@ -1,0 +1,8 @@
+version: "3"
+tasks:
+  build:external:
+    cmds:
+      - go build -o bin/monkeyc.so -buildmode=c-shared ./api/external/main.go
+    generates:
+      - bin/monkeyc.h
+      - bin/monkeyc.so
