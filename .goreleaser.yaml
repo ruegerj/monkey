@@ -1,0 +1,65 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+
+# The lines below are called `modelines`. See `:help modeline`
+# Feel free to remove those if you don't want/need to use them.
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+version: 2
+
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - go mod tidy
+    # you may remove this if you don't need go generate
+    - go generate ./...
+
+builds:
+  - id: monkeyc-darwin-amd64
+    binary: monkeyc_x64
+    env:
+      - CGO_ENABLED=1
+      - CC=o64-clang
+      - CXX=o64-clang++
+    main: ./api/external/main.go
+    buildmode: c-shared
+    goos:
+      - darwin
+    goarch:
+      - amd64
+  - id: monkeyc-darwin-arm64
+    binary: monkeyc_arm64
+    env:
+      - CGO_ENABLED=1
+      - CC=oa64-clang
+      - CXX=oa64-clang++
+    main: ./api/external/main.go
+    buildmode: c-shared
+    goos:
+      - darwin
+    goarch:
+      - arm64
+  - id: monkeyc-linux-amd64
+    binary: monkeyc_x64
+    env:
+      - CGO_ENABLED=1
+    main: ./api/external/main.go
+    buildmode: c-shared
+    goos:
+      - linux
+    goarch:
+      - amd64
+  - id: monkeyc-windows-x64
+    ldflags: -buildmode=exe
+    binary: monkeyc_x64
+    env:
+      - CGO_ENABLED=1
+      - CC=x86_64-w64-mingw32-gcc
+      - CXX=x86_64-w64-mingw32-g++
+    main: ./api/external/main.go
+    buildmode: c-shared
+    goos:
+      - windows
+    goarch:
+      - amd64
