@@ -1,5 +1,7 @@
 # Monkey Lang
 
+[![CI](https://github.com/ruegerj/monkey/actions/workflows/ci.yaml/badge.svg)](https://github.com/ruegerj/monkey/actions/workflows/ci.yaml)
+
 ```txt
                         .="=.
                       _/.-.-.\_     _
