@@ -6,6 +6,8 @@ import "C"
 import (
 	"bytes"
 	"fmt"
+	"io"
+	"os"
 
 	"github.com/ruegerj/monkey/compiler"
 	"github.com/ruegerj/monkey/lexer"
@@ -15,6 +17,11 @@ import (
 
 //export CompileAndRun
 func CompileAndRun(input *C.char) *C.char {
+	// Monkey patch stdout to capture console output
+	oldOut := os.Stdout
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+
 	inputStr := C.GoString(input)
 	l := lexer.New(inputStr)
 	p := parser.New(l)
@@ -45,8 +52,22 @@ func CompileAndRun(input *C.char) *C.char {
 		return C.CString(fmt.Sprintf("Bytecode execution failed: %s", err.Error()))
 	}
 
+	// copy the output in a separate goroutine so printing can't block indefinitely
+	outC := make(chan string)
+	go func() {
+		var buf bytes.Buffer
+		io.Copy(&buf, r)
+		outC <- buf.String()
+	}()
+
+	w.Close()
+	os.Stdout = oldOut
+	out := <-outC
+
 	lastPopped := machine.LastPoppedStackElem()
-	return C.CString(lastPopped.Inspect())
+
+	result := out + "\n\n" + lastPopped.Inspect()
+	return C.CString(result)
 }
 
 func main() {}
